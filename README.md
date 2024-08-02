@@ -78,12 +78,19 @@ Before deploying your HTML5 creative to LDSK, you need to package it into a ZIP 
 * **Error Handling:** Always include fallback mechanisms (e.g., default images) to handle situations where media caching fails.
 * **Keep Up-to-Date:** Stay informed about the latest LDSK updates and guidelines to ensure optimal performance and compatibility.
 
+### How to Run the Examples
+
+1. change to corresponding directory.
+2. run `npm install` to install the dependencies.
+2. run `npm start` to start the server.  This will load player-simulator.html in your browser which loads index.html in an iframe.
+3. Open the browser console to see the events being sent to the creative.
+4. The creative will choose a video after evaluating the inventory context.
+5. The creative will start playing the video after 5 seconds.
+
 
 ## Contributing
 
 We welcome contributions to this repository! If you have improvements, bug fixes, or new examples, please submit a pull request.
-
-Let me know if you have any further adjustments or questions!
 
 
 

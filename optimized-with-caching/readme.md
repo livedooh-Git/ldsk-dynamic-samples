@@ -5,6 +5,14 @@ This example demonstrates how to optimize media loading and reduce bandwidth usa
 Please ensure that you have a good grasp on the basic workflow of the LDSK player already covered in
 the [basic workflow example](../basic-workflow/readme.md).
 
+### How to Run the Example
+
+1. run `npm install` to install the dependencies.
+2. run `npm start` to start the server.  This will load player-simulator.html in your browser which loads index.html in an iframe.
+3. Open the browser console to see the events being sent to the creative.
+4. The creative will choose a video after evaluating the inventory context.
+5. The creative will start playing the video after 5 seconds.
+
 ## Media Caching Sequence
 To optimize media loading and reduce bandwidth usage within your HTML5 dynamic creatives, LDSK provides a mechanism for centralized caching.
 
