@@ -16,6 +16,7 @@ In this example we cover the following events:
 
 
 ```mermaid
+sequenceDiagram
     Creative->>LDSK Player: postMessage (type: MEDIA_REQUEST, requestId, url)
     LDSK Player->>CDN or Web: Fetch media asset
     CDN or Web->>LDSK Player: Media asset data
@@ -68,7 +69,7 @@ img.src = 'https://example.com/images/my-image.jpg';
 
 JavaScript
 
-```json
+```javascript
 {
   type: 'MEDIA_RESPONSE',
   requestId: 'unique-id',  // Matches the ID from the MEDIA_REQUEST
