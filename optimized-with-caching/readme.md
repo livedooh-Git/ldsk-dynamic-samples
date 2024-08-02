@@ -31,7 +31,7 @@ sequenceDiagram
 * **Sent to:** The parent window (LDSK player).
 * **Purpose:** Asks LDSK to fetch the media and cache it locally.
 * **Payload:**
-```json
+```javascript
 {
   type: 'MEDIA_REQUEST',
   requestId: 'unique-id', // A unique identifier for this request
