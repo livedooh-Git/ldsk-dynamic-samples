@@ -1,0 +1,36 @@
+html, body {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	overflow: hidden; /* Prevent scroll bars */
+}
+
+body {
+	color: #333;
+	box-sizing: border-box;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+}
+
+#video-container {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	overflow: hidden; /* Prevent scroll bars */
+}
+
+#video-container video {
+	width: 100%;
+	height: 100%;
+	object-fit: cover; /* Ensures the video covers the entire container */
+}
+
+iframe {
+	width: 100%;
+	height: 100%;
+	border: 0;
+	overflow: hidden; /* Prevent scroll bars */
+}

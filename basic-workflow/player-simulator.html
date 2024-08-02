@@ -1,0 +1,75 @@
+<html>
+
+<head>
+    <title>Simulation LDSK Player</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            margin: 0;
+        }
+
+        iframe {
+            height: 50vh;
+            aspect-ratio: 9/16;
+            border: 0;
+        }
+
+        #button-container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        button {
+            width: auto;
+            height: 5vh;
+            font-size: 2vh;
+        }
+    </style>
+
+    <script>
+
+        // Send message to an iFrame (defined with iFrameId) via the postMessage mechanism
+        function sendPostMessage(message, iFrameId) {
+            const iframe = document.getElementById(iFrameId);
+            iframe.contentWindow.postMessage(message, "*");
+        }
+
+        function initFunc() {
+            //The LDSK player will send the PLAYER_CONFIGURATION event to the dynamic creative when the iframe is loaded
+            sendPostMessage(
+                {
+                    type: "PLAYER_CONFIGURATION",
+                    eventType: "PLAYER_CONFIGURATION",
+                    inventory: {
+                        attributes: {
+                            adunit: "abcde12345",
+                            uuid: "generic-unique-identifier",
+                            city: "Barcelona"
+                        },
+                    },
+                },
+                "generic-iframeid"
+            );
+
+            // Simulate the PLAY event after 5 seconds
+            setTimeout(() => {
+                sendPostMessage(
+                    {
+                        type: "PLAY",
+                        eventType: "PLAY"
+                    },
+                    "generic-iframeid"
+                );
+            }, 5000);
+        }
+
+    </script>
+</head>
+
+<body>
+    <iframe id="generic-iframeid" src="index.html" onload="initFunc()"></iframe>
+</body>
+
+</html>

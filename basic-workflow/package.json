@@ -1,0 +1,15 @@
+{
+  "name": "ldsk-dynamic-basic-workflow",
+  "version": "1.0.0",
+  "main": "main.js",
+  "scripts": {
+    "start": "http-server -c-1 -p 8080 -o player-simulator.html"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}
