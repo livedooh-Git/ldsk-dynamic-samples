@@ -39,11 +39,11 @@ sequenceDiagram
 * **Sent to:** The parent window (LDSK player).
 * **Purpose:** Asks LDSK to fetch the media and cache it locally.
 * **Payload:**
-```javascript
+```json
 {
-  type: 'MEDIA_REQUEST',
-  requestId: 'unique-id', // A unique identifier for this request
-  url: 'https://example.com/images/my-image.jpg' // URL of the asset
+  "type": "MEDIA_REQUEST",
+  "requestId": "unique-id",
+  "url": "https://example.com/images/my-image.jpg"
 }
 ```
 
@@ -77,14 +77,13 @@ img.src = 'https://example.com/images/my-image.jpg';
 
 JavaScript
 
-```javascript
+```json
 {
-  type: 'MEDIA_RESPONSE',
-  requestId: 'unique-id',  // Matches the ID from the MEDIA_REQUEST
-  localUrl: '/path/to/cached/image.jpg' // Path to the cached asset
+  "type": "MEDIA_RESPONSE",
+  "requestId": "unique-id",  
+  "localUrl": "/path/to/cached/image.jpg" 
 }
 ```
-
 
 **Example (Handling a Media Response):**
 
@@ -123,3 +122,10 @@ window.addEventListener('message', (event) => {
 * **Reduced Bandwidth:** This mechanism prevents multiple downloads of the same asset across different creatives.
 * **Improved Performance:** Local assets load faster than fetching them over the network.  Providing a seamless playback experience.
 * **Error Handling:** Always include a fallback plan (e.g., default image) in case a media request fails.
+
+## Important Considerations
+* **Video element tags**: If targeting your creative to a network with LDSK player that is using Samsung Tizen screens,
+  do not to add a `<video>` element tag in your creative's HTML markup, instead add it programmatically with Javascript. This is because
+  the Samsung Tizen screens struggle when more than one `<video>` element tag present, given that the creative is preloading
+  behind the scenes, it is very possible that another `<video>` element tag is presently playing. This will cause the screen
+  to blank into a black frame and the creative will not play.

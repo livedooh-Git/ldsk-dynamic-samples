@@ -78,6 +78,13 @@ Before deploying your HTML5 creative to LDSK, you need to package it into a ZIP 
 * **Error Handling:** Always include fallback mechanisms (e.g., default images) to handle situations where media caching fails.
 * **Keep Up-to-Date:** Stay informed about the latest LDSK updates and guidelines to ensure optimal performance and compatibility.
 
+## Important Considerations
+* **Video element tags**: If targeting your creative to a network with LDSK player that is using Samsung Tizen screens, 
+do not to add a `<video>` element tag in your creative's HTML markup, instead add it programmatically with Javascript. This is because
+the Samsung Tizen screens struggle when more than one `<video>` element tag present, given that the creative is preloading 
+behind the scenes, it is very possible that another `<video>` element tag is presently playing. This will cause the screen
+ to blank into a black frame and the creative will not play.
+
 ### How to Run the Examples
 
 1. change to corresponding directory.
