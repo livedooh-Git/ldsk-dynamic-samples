@@ -25,8 +25,8 @@ JavaScript
     "name": "Store 123",
     "attributes": {
       "location": "City Center",
-      "screenId": "45678"
-      // ... other inventory details
+      "screenId": "45678",
+      "...": "... other attributes"
     }
   }
 }
@@ -74,3 +74,10 @@ See [main.js](./main.js) for a complete example of how to handle these events.
 3. Open the browser console to see the events being sent to the creative.
 4. The creative will choose a video after evaluating the inventory context.
 5. The creative will start playing the video after 5 seconds.
+
+## Important Considerations
+* **Video element tags**: If targeting your creative to a network with LDSK player that is using Samsung Tizen screens,
+  do not to add a `<video>` element tag in your creative's HTML markup, instead add it programmatically with Javascript. This is because
+  the Samsung Tizen screens struggle when more than one `<video>` element tag present, given that the creative is preloading
+  behind the scenes, it is very possible that another `<video>` element tag is presently playing. This will cause the screen
+  to blank into a black frame and the creative will not play.
