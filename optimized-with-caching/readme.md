@@ -39,11 +39,17 @@ sequenceDiagram
 * **Sent to:** The parent window (LDSK player).
 * **Purpose:** Asks LDSK to fetch the media and cache it locally.
 * **Payload:**
+
 ```json
 {
+  "eventType": "MEDIA_REQUEST",
   "type": "MEDIA_REQUEST",
-  "requestId": "unique-id",
-  "url": "https://example.com/images/my-image.jpg"
+  "payload": {
+    "mediaType": "image",
+    "mediaUrl": "https://example.com/images/my-image.jpg",
+    "requestId": "unique-id",
+    "uuid": "UUID_FROM_PLAYER_CONFIGURATION"  
+  }
 }
 ```
 
@@ -80,8 +86,10 @@ JavaScript
 ```json
 {
   "type": "MEDIA_RESPONSE",
+  "eventType": "MEDIA_REQUEST",
   "requestId": "unique-id",  
-  "localUrl": "/path/to/cached/image.jpg" 
+  "localUrl": "/path/to/cached/image.jpg",
+  "mediaType": "image"
 }
 ```
 
