@@ -86,7 +86,7 @@ JavaScript
 ```json
 {
   "type": "MEDIA_RESPONSE",
-  "eventType": "MEDIA_REQUEST",
+  "eventType": "MEDIA_RESPONSE",
   "requestId": "unique-id",  
   "localUrl": "/path/to/cached/image.jpg",
   "mediaType": "image"
