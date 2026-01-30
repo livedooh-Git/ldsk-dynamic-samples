@@ -1,0 +1,1 @@
+var placeholders = { "videoSrc": "https://remote.com/video.mp4", "videoLocalSrc": "video.mp4" }

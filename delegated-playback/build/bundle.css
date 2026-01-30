@@ -1,0 +1,34 @@
+body {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box
+}
+
+html {
+    font-size: 1.5vw;
+    overflow: hidden
+}
+
+#root {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden
+}
+
+#root #video {
+    z-index: 1;
+    height: 100vh;
+    width: 100vw;
+    gap: 0px;
+    margin: 0;
+    padding: 0;
+    background-image: url(../assets/images/video_placeholder.png);
+    background-position: center;
+    background-size: cover
+}
+
+#root video::-webkit-media-controls-panel {
+    display: none !important;
+    opacity: 1 !important
+}
