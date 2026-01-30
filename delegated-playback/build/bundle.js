@@ -117,8 +117,25 @@
         .then((data) => {
           if (event.data.type === "PLAYER_CONFIGURATION") {
           
-            // If player supports local files, we send the mediaFileId (folderName) and the fileName. Example: b2dd12f621332ds12321dsad/video.mp4
-            let mediaUrl = event.data.mediaFileId + '/' + data.videoLocalSrc;
+            /*
+              Determine media URL based on player capabilities:
+              - Tizen players (v19.6.3+): require mediaFileId prefix with local file path
+              - BrightSign & other players: use local file path directly
+              - Fallback: use remote videoSrc if local file not available
+            */
+            let mediaUrl;
+            const playerVersion = event.data.playerVersion || '';
+            const isTizen = playerVersion.toLowerCase().includes('tizen');
+            
+            if (data.videoLocalSrc) {
+              // Local file available
+              mediaUrl = isTizen 
+                ? `${event.data.mediaFileId}/${data.videoLocalSrc}`
+                : data.videoLocalSrc;
+            } else {
+              // Fallback to remote source
+              mediaUrl = data.videoSrc;
+            }
 
             playlistCreativeId = event.data.playlistCreativeId ? event.data.playlistCreativeId : "";
 
