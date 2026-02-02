@@ -57,8 +57,9 @@ DELEGATE_PLAY is supported on the following LDSK player versions:
 
 **Action:**
 1. Construct the payload containing the media URL and metadata.
-2. Hide your template's visual elements (e.g., `opacity: 0`).
-3. Dispatch the message to the parent window.
+2. Dispatch the message to the parent window.
+
+> **Note:** The player automatically handles hiding the creative when it takes over playback. You don't need to set opacity or hide elements manually.
 
 **Code Payload:**
 
@@ -126,11 +127,8 @@ This snippet focuses purely on the delegation logic. It ignores editor/preview m
                 replacementMediaUrl: data.replacementMediaUrl
             };
 
-            // 2. Hide Self
-            // We hide immediately to prevent double-rendering (browser + native)
-            document.body.style.opacity = "0";
-
-            // 3. Send the Command
+            // 2. Send the Command
+            // Note: The player automatically hides the creative when taking over playback
             postMessageToParent("DELEGATE_PLAY", delegatePayload);
         }
 
@@ -205,6 +203,38 @@ var placeholders = {
 
 > **Why two files?** The JSON file is used in production, while the JS file serves as a fallback if the fetch fails. This ensures robustness across different deployment scenarios.
 
+### Platform-Specific Media URL Handling
+
+Different LDSK player platforms require different approaches for local media files:
+
+```javascript
+/*
+  Determine media URL based on player capabilities:
+  - Tizen players (v19.6.3+): require mediaFileId prefix with local file path
+  - BrightSign & other players: use local file path directly
+  - Fallback: use remote videoSrc if local file not available
+*/
+let mediaUrl;
+const playerVersion = event.data.playerVersion || '';
+const isTizen = playerVersion.toLowerCase().includes('tizen');
+
+if (data.videoLocalSrc) {
+  // Local file available
+  mediaUrl = isTizen 
+    ? `${event.data.mediaFileId}/${data.videoLocalSrc}`
+    : data.videoLocalSrc;
+} else {
+  // Fallback to remote source
+  mediaUrl = data.videoSrc;
+}
+```
+
+**Key Points:**
+- **Tizen Players:** Require the `mediaFileId` prefix provided in `PLAYER_CONFIGURATION` to construct the local file path
+- **BrightSign/VXT:** Use `videoLocalSrc` directly without prefix
+- **Remote Fallback:** If no `videoLocalSrc` is provided, use the remote `videoSrc` URL
+- **Same Logic for Images:** Apply the same pattern using `imageLocalSrc` for image media types
+
 ### Fallback: Using Video Element
 
 If the DELEGATE_PLAY handshake fails or encounters errors, you can implement a fallback to render the video directly in your creative using a `<video>` element.
@@ -263,18 +293,16 @@ sequenceDiagram
     
     Player->>Creative: Load creative in iframe
     Creative->>Placeholder: fetch("./placeholders.json")
-    Placeholder-->>Creative: {videoSrc: "https://..."}
-    Player->>Creative: PLAYER_CONFIGURATION<br/>(playlistCreativeId, uuid)
-    Note over Creative: Extract playlistCreativeId
+    Placeholder-->>Creative: {videoSrc: "https://...", videoLocalSrc: "video.mp4"}
+    Player->>Creative: PLAYER_CONFIGURATION<br/>(playlistCreativeId, uuid, mediaFileId)
+    Note over Creative: Determine media URL:<br/>Tizen: mediaFileId/videoLocalSrc<br/>Others: videoLocalSrc
     Note over Creative: shouldRenderVideo = false
-    Note over Creative: rootElement.style.opacity = 0
     Creative->>Player: DELEGATE_PLAY<br/>(mediaType, mediaUrl, metadata)
     Note over Player: Validate media URL<br/>Check cache or download
     Player->>Creative: DELEGATE_PLAY_RESPONSE<br/>(status: AdResponse/Replacement/Fallback)
-    Note over Creative: Log confirmation<br/>Creative remains hidden
+    Note over Creative: Log confirmation
     Player->>Creative: PLAY
-    Note over Player: Player handles playback<br/>Media plays natively
-    Note over Creative: Creative stays hidden<br/>(opacity: 0)
+    Note over Player: Player handles playback<br/>Media plays natively<br/>Player hides creative automatically
 ```
 
 ---
