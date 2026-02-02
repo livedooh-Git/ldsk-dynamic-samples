@@ -145,8 +145,7 @@
                 playlistCreativeId: playlistCreativeId,
                 replacementMediaType: event.data.replacementMediaType,
                 replacementMediaUrl: event.data.replacementMediaUrl,
-                uuid: event.data.uuid,
-                playlistCreativeId: playlistCreativeId
+                uuid: event.data.uuid
             };
             shouldRenderVideo = false;
             postMessageToParent("DELEGATE_PLAY", payload);
