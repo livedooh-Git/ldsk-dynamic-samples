@@ -23,6 +23,19 @@ The "Delegate Play" pattern is a two-step handshake. Your template identifies th
 - **Request:** The Template sends `DELEGATE_PLAY` with the media details.
 - **Response:** The Player sends back `DELEGATE_PLAY_RESPONSE` to confirm it has received the command and is taking over.
 
+### Player Support
+
+DELEGATE_PLAY is supported on the following LDSK player versions:
+
+| Platform | Minimum Version | Latest Version | Status |
+|----------|----------------|----------------|--------|
+| **Tizen / Windows / Linux** | v19.6.2+ | v19.7.2 | ✅ Supported |
+| **BrightSign** | v2025.1.0+ | v2025.3.0 | ✅ Supported |
+| **VXT** | All versions | - | ✅ Supported |
+| **Android** | - | - | ❌ Not Supported |
+
+> **Important:** Ensure your target screens are running compatible player versions. For Android players, you must implement direct video playback instead of using DELEGATE_PLAY.
+
 ### Why Use This Pattern?
 
 **Benefits:**
