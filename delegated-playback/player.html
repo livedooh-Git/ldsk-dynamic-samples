@@ -1,0 +1,167 @@
+<html>
+
+<head>
+    <title>Simulation LiveDOOH Player</title>
+
+    <style>
+        body {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            margin: 0;
+        }
+
+        iframe {
+            height: 50vh;
+            aspect-ratio: 16/9;
+            border: 0;
+        }
+
+        #button-container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        button {
+            width: auto;
+            height: 5vh;
+            font-size: 2vh;
+        }
+    </style>
+
+    <script>
+        window.addEventListener("load", function () {
+            //attach message listener
+            if (window.addEventListener) {
+                window.addEventListener("message", receiveMessage);
+            } else {
+                window.attachEvent("onmessage", receiveMessage);
+            }
+        });
+
+        function receiveMessage(event) {
+            console.log(event)
+        }
+
+        // Send message to an iFrame (defined with iFrameId) via the postMessage mechanism
+        function sendPostMessage(message, iFrameId) {
+            let iFrame = document.getElementById(iFrameId);
+
+            if (!iFrame) {
+                console.log(
+                    `iFrame with ID ${iFrameId} not present in the DOM`
+                );
+                return;
+            }
+
+            let iframeWin = iFrame.contentWindow;
+            if (iframeWin) {
+                iframeWin.postMessage(message, "*");
+                console.log("iFrame postMessage sent", message);
+            } else {
+                console.log(
+                    `iFrame postMessage of type: ${message.eventType} with message: ${message.eventType} failed`
+                );
+            }
+        }
+
+        function forwardPostMessage(message) {
+            let iFrameEvent = {
+                eventType: message.data.eventType,
+                iframeId: message.data.iframeId,
+                myAdBookerEvent: true,
+            };
+
+            sendPostMessage(iFrameEvent, message.data.iframeId);
+        }
+
+        function initFunc() {
+            sendPostMessage(
+                {
+                    type: "PLAYER_CONFIGURATION",
+                    eventType: "PLAYER_CONFIGURATION",
+                    inventory: {
+                        attributes: {
+                            //Landsmeer     Breda
+                            //D7E9CS001270  D7E9CM001314
+                            uuid: "D7E9CM001314",
+                            city: "Heeswijk",
+                            daysopen: "364",
+                        },
+                    },
+                },
+                "singleframeid"
+            );
+        }
+
+        function setDesign() {
+            sendPostMessage(
+                {
+                    type: "SET_DESIGN",
+                    eventType: "SET_DESIGN",
+                    // uuid: "123456",
+                    duid: "D7E9CM001314",
+                    design: {
+                        attributes: {
+                            fontSize: ".5vw",
+                            //background: "coffee_croissant.png",
+                            image: "maaltijdsalade.png",
+                            title: "Lekker voor<br />onderweg!",
+                            subtitle:
+                                "Jumbo<br /> maaltijdsalade<br /> gerookte kip",
+                            description: "450 gram",
+                            euro: "5",
+                            cent: "20",
+                        },
+                    },
+                },
+                "singleframeid"
+            );
+        }
+
+        function play() {
+            sendPostMessage(
+                {
+                    type: "PLAY",
+                    eventType: "PLAY",
+                    duid: "D7E9CM001314",
+                },
+                "singleframeid"
+            );
+        }
+
+        function setLive() {
+            sendPostMessage(
+                {
+                    type: "SET_LIVE",
+                    eventType: "SET_LIVE",
+                    duid: "D7E9CM001314",
+                },
+                "singleframeid"
+            );
+        }
+
+        function retreive_state() {
+            sendPostMessage(
+                {
+                    type: "RETRIEVE_STATE",
+                    eventType: "RETRIEVE_STATE",
+                    duid: "D7E9CM001314",
+                },
+                "singleframeid"
+            );
+        }
+    </script>
+</head>
+
+<body>
+    <iframe id="singleframeid" src="index.html" onload="initFunc()"></iframe>
+    <div id="button-container">
+        <button onclick="setDesign()">SET DESIGN</button>
+        <button onclick="setLive()">SET LIVE</button>
+        <button onclick="play()">PLAY</button>
+        <button onclick="retreive_state()">RETREIVE STATE</button>
+    </div>
+</body>
+
+</html>
