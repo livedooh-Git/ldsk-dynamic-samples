@@ -59,16 +59,17 @@ sequenceDiagram
 JavaScript
 
 ```javascript
-var img = new Image();
-img.onload = function() { /* handle successful load */ };
-img.onerror = function() {
-    parent.postMessage({
-        type: 'MEDIA_REQUEST',
-        requestId: 'image123', 
-        url: this.src
-    }, '*');
-};
-img.src = 'https://example.com/images/my-image.jpg';
+// The media details go inside a `payload` object, and the player reads them
+// as `event.data.payload.*`. Use `mediaUrl` (not `url`) and include `mediaType`.
+parent.postMessage({
+    type: 'MEDIA_REQUEST',
+    eventType: 'MEDIA_REQUEST',
+    payload: {
+        mediaType: 'image',
+        mediaUrl: 'https://example.com/images/my-image.jpg',
+        requestId: 'image123'
+    }
+}, '*');
 ```
 
 
