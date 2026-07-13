@@ -2,11 +2,11 @@
 This example demonstrates the basic workflow for a dynamic creative in the LDSK player.
 The example is a simple creative that displays a single video after evaluating attributes on the inventory context provided by the player.
 
-## Events: PLAY_CONFIGURATION and PLAY
+## Events: PLAYER_CONFIGURATION and PLAY
 
 The LDSK player communicates with your HTML5 creative through two important events:
 
-### 1. PLAY_CONFIGURATION Event
+### 1. PLAYER_CONFIGURATION Event
 
 * **When:** Sent **5 seconds before** your creative starts playing.
 * **Why:** Gives you a heads-up so you can prepare your creative for a smooth start.

@@ -335,7 +335,7 @@ The DELEGATE_PLAY pattern is a powerful way to optimize media playback in LDSK c
 **Key Takeaways:**
 1. Send `DELEGATE_PLAY` after receiving `PLAYER_CONFIGURATION`
 2. Always handle the `DELEGATE_PLAY_RESPONSE` for confirmation
-3. Hide your creative (opacity: 0) when delegating playback
+3. Do **not** hide the creative manually — the player automatically hides it when it takes over playback. Only manage `opacity` in the video-element fallback path (set `opacity: 1` to show the creative when delegation fails)
 4. Use `placeholders.json` and `placeholders.js` for media URLs
 5. Implement video element fallback for error scenarios
 6. Test thoroughly with the included `player.html` simulator

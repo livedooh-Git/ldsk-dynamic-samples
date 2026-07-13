@@ -6,7 +6,7 @@ This repository provides tools and examples to help you create and optimize dyna
 
 ## Overview
 
-LDSK is a powerful digital signage platform that enables you to deliver engaging, dynamic content to your audience. This kit focuses on two key aspects of developing for LDSK:
+LDSK is a powerful digital signage platform that enables you to deliver engaging, dynamic content to your audience. This kit provides three worked examples — from a basic creative, to player-side media caching, to fully delegated native playback (recommended for Samsung Tizen).
 
 In a high level view this is the sequence of events that happen when a creative is loaded in the LDSK player:
 
@@ -21,18 +21,22 @@ sequenceDiagram
 
 ## Repository Structure
 
-* **basic-workflow:** A simple HTML5 creative that demonstrates the core structure and postMessage communication with the LDSK player.
-* **optimized-with-caching:** An enhanced creative showcasing how to request and use cached media assets (images, videos) for faster loading and reduced bandwidth usage.
+* **basic-workflow:** A simple HTML5 creative that demonstrates the core structure and postMessage communication with the LDSK player (`PLAYER_CONFIGURATION`, `PLAY`).
+* **optimized-with-caching:** An enhanced creative showcasing how to request and use cached media assets (images, videos) via `MEDIA_REQUEST` / `MEDIA_RESPONSE` for faster loading and reduced bandwidth usage.
+* **delegated-playback:** A creative that delegates media playback to the native LDSK player using `DELEGATE_PLAY`. **Recommended for Samsung Tizen screens**, as it avoids multiple `<video>` element conflicts and lets the player manage caching and playback natively.
 
 ## Getting Started
 
-1. **Clone the Repository:** \
-   Bash \
-   git clone https://github.com/livedooh-Git/ldsk-dynamic-samples.git \
+1. **Clone the Repository:**
+
+   ```bash
+   git clone https://github.com/livedooh-Git/ldsk-dynamic-samples.git
+   ```
 
 2. **Explore the Examples:**
-    * **basic-workflow:** Understand the basic structure of an HTML5 creative and how to interact with LDSK events (PLAYER_CONFIGURATION, PLAY).
-    * **optimized-with-caching:** Learn how to send MEDIA_REQUEST messages and handle MEDIA_RESPONSE events to utilize cached media.
+    * **basic-workflow:** Understand the basic structure of an HTML5 creative and how to interact with LDSK events (`PLAYER_CONFIGURATION`, `PLAY`).
+    * **optimized-with-caching:** Learn how to send `MEDIA_REQUEST` messages and handle `MEDIA_RESPONSE` events to utilize cached media.
+    * **delegated-playback:** Learn how to hand media playback to the native player with `DELEGATE_PLAY` — the recommended approach for Tizen.
 3. **Adapt and Create:**
     * Use the examples as templates to build your own creatives.
     * Customize the content, styling, and interactivity to suit your campaign goals.
@@ -45,29 +49,30 @@ sequenceDiagram
 * **postMessage API:** The primary way your creative communicates with the LDSK player.
 * **PLAYER_CONFIGURATION Event:** Provides inventory data about the screen (e.g., location, attributes) for dynamic content personalization.
 * **PLAY Event:** Signals the exact moment to start your creative's playback.
-* **MEDIA_REQUEST, MEDIA_RESPONSE, and MEDIA_REQUEST_EXCEPTION Events:** Enable media caching and efficient loading.
+* **MEDIA_REQUEST, MEDIA_RESPONSE, and MEDIA_REQUEST_EXCEPTION Events:** Enable media caching and efficient loading. See [optimized-with-caching](./optimized-with-caching/readme.md).
+* **DELEGATE_PLAY and DELEGATE_PLAY_RESPONSE Events:** Delegate media playback to the native player instead of rendering it in the creative. Recommended for Samsung Tizen. See [delegated-playback](./delegated-playback/README.md).
 
 ## **Packaging Your Creative**
 
 Before deploying your HTML5 creative to LDSK, you need to package it into a ZIP archive:
 
 1. **Gather Your Assets:**
-   * **<code>index.html</code>:</strong> Your main HTML file.
-   * <strong>Other HTML files (if any):</strong> Any additional HTML files used by your creative.
-   * <strong>JavaScript files (.js):</strong> Your creative's logic and interactivity.
-   * <strong>CSS files (.css):</strong> Styles for your creative.
-   * <strong>Images (.jpg, .png, etc.):</strong> Visual assets.
-   * <strong>Videos (.mp4):</strong> Video content.
-   * <strong>Other assets (fonts, etc.):</strong> Any other files required by your creative.
-2. <strong>Create the ZIP Archive:</strong>
+   * **`index.html`:** Your main HTML file.
+   * **Other HTML files (if any):** Any additional HTML files used by your creative.
+   * **JavaScript files (`.js`):** Your creative's logic and interactivity.
+   * **CSS files (`.css`):** Styles for your creative.
+   * **Images (`.jpg`, `.png`, etc.):** Visual assets.
+   * **Videos (`.mp4`):** Video content.
+   * **Other assets (fonts, etc.):** Any other files required by your creative.
+2. **Create the ZIP Archive:**
    * Create a new folder to hold your creative.
    * Place all of your creative's assets inside this folder.
    * Select all the files and folders within the creative folder.
    * Right-click and choose "Compress" (or similar option) to create a ZIP archive.
-3. <strong>Important Considerations:</strong>
-   * <strong>Root Level <code>index.html</code>:</strong> Make sure your <code>index.html</code> file is at the root level of the ZIP archive (not inside a subfolder).
-   * <strong>No Nested ZIPs:</strong> Do not include other ZIP archives within your creative's ZIP file.
-   * <strong>Relative Paths:</strong> Ensure that all file paths within your creative (e.g., references to images or videos) are relative to the <code>index.html</code> file.
+3. **Important Considerations:**
+   * **Root Level `index.html`:** Make sure your `index.html` file is at the root level of the ZIP archive (not inside a subfolder).
+   * **No Nested ZIPs:** Do not include other ZIP archives within your creative's ZIP file.
+   * **Relative Paths:** Ensure that all file paths within your creative (e.g., references to images or videos) are relative to the `index.html` file.
 
 
 
@@ -85,7 +90,7 @@ the Samsung Tizen screens struggle when more than one `<video>` element tag pres
 behind the scenes, it is very possible that another `<video>` element tag is presently playing. This will cause the screen
  to blank into a black frame and the creative will not play.
 
-### How to Run the Examples
+## How to Run the Examples
 
 1. change to corresponding directory.
 2. run `npm install` to install the dependencies.
