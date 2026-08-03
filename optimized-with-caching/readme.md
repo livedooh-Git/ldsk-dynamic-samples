@@ -61,13 +61,16 @@ JavaScript
 ```javascript
 // The media details go inside a `payload` object, and the player reads them
 // as `event.data.payload.*`. Use `mediaUrl` (not `url`) and include `mediaType`.
+// `uuid` is the id the player assigned to this iframe (provided in PLAYER_CONFIGURATION)
+// and must be included so the player can route the response back to this creative.
 parent.postMessage({
     type: 'MEDIA_REQUEST',
     eventType: 'MEDIA_REQUEST',
     payload: {
         mediaType: 'image',
         mediaUrl: 'https://example.com/images/my-image.jpg',
-        requestId: 'image123'
+        requestId: 'image123',
+        uuid: uuidFromPlayerConfiguration
     }
 }, '*');
 ```
