@@ -34,8 +34,9 @@ function handlePlayerConfiguration(data) {
     // this uuid is the id given to the iframe by the player, it needs to be part of the request
     let mediaRequest = {
         mediaType: 'video',
-        mediaUrl: 'https://lvdstorageapp.blob.core.windows.net/media-container/cdn/uploads/65cb4fbac105afd3fbebae9a.mp4',
-        requestId: '65cb4fbac105afd3fbebae9a'
+        mediaUrl: 'https://lvdstorageapp.blob.core.windows.net/media-container/cdn/processed/media/6a71fcc9b96f114dcd1277ce.mp4',
+        requestId: 'cached-video',
+        uuid: data.uuid
     };
 
     console.log('Requesting media:', mediaRequest);
@@ -62,7 +63,7 @@ function handleOtherEvents(message) {
 function handleMediaResponse(data) {
     console.log('Received MEDIA_RESPONSE event:', data);
     // Check if the response is for the media request we made
-    if (data.requestId === '65cb4fbac105afd3fbebae9a') {
+    if (data.requestId === 'cached-video') {
         // Set the source of the video
         videoElement.src = data.localUrl;
         videoElement.load();
